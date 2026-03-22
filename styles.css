@@ -1,0 +1,209 @@
+/* ============================================================
+   Base / Light-mode variables
+   ============================================================ */
+:root {
+  --color-bg:         #ffffff;
+  --color-surface:    #f3f4f6;
+  --color-text:       #111827;
+  --color-text-muted: #6b7280;
+  --color-border:     #e5e7eb;
+  --color-accent:     #4f46e5;
+
+  /* Toggle track */
+  --toggle-track-bg:        #d1d5db;
+  --toggle-track-bg-active: #4f46e5;
+  --toggle-thumb-bg:        #ffffff;
+
+  --transition-speed: 0.25s;
+}
+
+/* ============================================================
+   Dark-mode overrides  (applied via <html class="dark">)
+   ============================================================ */
+html.dark {
+  --color-bg:         #0f172a;
+  --color-surface:    #1e293b;
+  --color-text:       #f1f5f9;
+  --color-text-muted: #94a3b8;
+  --color-border:     #334155;
+  --color-accent:     #818cf8;
+
+  --toggle-track-bg:        #475569;
+  --toggle-track-bg-active: #818cf8;
+  --toggle-thumb-bg:        #f1f5f9;
+}
+
+/* ============================================================
+   Reset / global
+   ============================================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  padding: 2rem;
+  transition:
+    background-color var(--transition-speed) ease,
+    color           var(--transition-speed) ease;
+}
+
+/* ============================================================
+   Header / nav bar
+   ============================================================ */
+header {
+  width: 100%;
+  max-width: 640px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+  transition:
+    background-color var(--transition-speed) ease,
+    border-color     var(--transition-speed) ease;
+}
+
+header h1 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* ============================================================
+   Dark-mode toggle — accessible checkbox-based switch
+   ============================================================ */
+.dark-mode-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.dark-mode-toggle__label {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  transition: color var(--transition-speed) ease;
+}
+
+/* Hide the native checkbox visually but keep it accessible */
+.dark-mode-toggle__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Track */
+.dark-mode-toggle__track {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 2.75rem;   /* 44 px */
+  height: 1.5rem;   /* 24 px */
+  border-radius: 9999px;
+  background-color: var(--toggle-track-bg);
+  transition: background-color var(--transition-speed) ease;
+  flex-shrink: 0;
+}
+
+/* Thumb */
+.dark-mode-toggle__track::after {
+  content: "";
+  position: absolute;
+  left: 3px;
+  width: 1.125rem;  /* 18 px */
+  height: 1.125rem;
+  border-radius: 9999px;
+  background-color: var(--toggle-thumb-bg);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  transition:
+    transform         var(--transition-speed) ease,
+    background-color  var(--transition-speed) ease;
+}
+
+/* Checked state — slide thumb to the right & change track colour */
+.dark-mode-toggle__input:checked + .dark-mode-toggle__track {
+  background-color: var(--toggle-track-bg-active);
+}
+
+.dark-mode-toggle__input:checked + .dark-mode-toggle__track::after {
+  transform: translateX(1.25rem); /* 20 px */
+}
+
+/* Focus ring for keyboard accessibility */
+.dark-mode-toggle__input:focus-visible + .dark-mode-toggle__track {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Icons inside the track (sun / moon emoji via pseudo-element text) */
+.dark-mode-toggle__track::before {
+  content: "☀️";
+  position: absolute;
+  right: 5px;
+  font-size: 0.65rem;
+  line-height: 1;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity var(--transition-speed) ease;
+}
+
+.dark-mode-toggle__input:checked + .dark-mode-toggle__track::before {
+  content: "🌙";
+  right: auto;
+  left: 5px;
+}
+
+/* ============================================================
+   Demo content card
+   ============================================================ */
+.card {
+  width: 100%;
+  max-width: 640px;
+  padding: 1.5rem;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+  transition:
+    background-color var(--transition-speed) ease,
+    border-color     var(--transition-speed) ease;
+}
+
+.card h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--color-text);
+}
+
+.card p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+
+.card a {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
