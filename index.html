@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dark Mode Toggle</title>
+  <link rel="stylesheet" href="styles.css" />
+
+  <!--
+    Apply the saved preference BEFORE the first paint to avoid a flash of the
+    wrong colour scheme.  This tiny inline script runs synchronously.
+  -->
+  <script>
+    (function () {
+      try {
+        var stored = localStorage.getItem("darkMode");
+        var prefersDark =
+          stored !== null
+            ? stored === "true"
+            : window.matchMedia("(prefers-color-scheme: dark)").matches;
+        if (prefersDark) document.documentElement.classList.add("dark");
+      } catch (e) { /* ignore */ }
+    })();
+  </script>
+</head>
+<body>
+
+  <header>
+    <h1>My App</h1>
+
+    <!--
+      Dark-mode toggle
+      ─────────────────
+      Uses a visually-hidden <input type="checkbox"> for full keyboard &
+      screen-reader accessibility.  The visible track / thumb are CSS-only.
+    -->
+    <label class="dark-mode-toggle" for="dark-mode-input" aria-label="Toggle dark mode">
+      <input
+        class="dark-mode-toggle__input"
+        type="checkbox"
+        id="dark-mode-input"
+        role="switch"
+        aria-checked="false"
+      />
+      <span class="dark-mode-toggle__track" aria-hidden="true"></span>
+      <span class="dark-mode-toggle__label">Dark mode</span>
+    </label>
+  </header>
+
+  <!-- Demo content --------------------------------------------------------- -->
+  <main>
+    <div class="card">
+      <h2>Welcome</h2>
+      <p>
+        This page demonstrates a fully accessible, CSS-variable-driven dark mode
+        toggle.  Your preference is saved in <code>localStorage</code> and
+        restored on every visit.  The initial value falls back to your
+        operating-system preference (<code>prefers-color-scheme</code>).
+      </p>
+    </div>
+
+    <div class="card" style="margin-top:1rem;">
+      <h2>How it works</h2>
+      <p>
+        Toggling the switch adds or removes the <code>dark</code> class on
+        <code>&lt;html&gt;</code>.  All colours are defined as CSS custom
+        properties so the entire palette switches in a single re-paint — no
+        JavaScript style manipulation required.
+        See <a href="darkmode.js">darkmode.js</a> and
+        <a href="styles.css">styles.css</a> for the implementation.
+      </p>
+    </div>
+  </main>
+
+  <script src="darkmode.js"></script>
+</body>
+</html>
